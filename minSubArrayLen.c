@@ -1,26 +1,20 @@
 int minSubArrayLen(int s, int* nums, int numsSize)
 {
-		int step, i, j;
-		int sum;
-		int flag = 0;
-		int ret = 0;
-		for (step = 0; step < numsSize; step++) {
-				for (i = 0; i < numsSize - step; i++) {
+		int i,j,k,sum;
+		int len = INT_MAX;
+		sum = 0;
+		for (i = 0; i < numsSize; i++)
+				for (j = i; j < numsSize; j++) {
 						sum = 0;
-						for (j = i; j < i + step + 1; j++)
-								sum += nums[j];
-						if (sum >= s) {
-								flag = 1;
-								break;
+						for (k = i; k <= j; k++) {
+								sum += nums[k];
+								if (sum >= s) {
+										if (j-i+1 < len)
+												len = j-i+1;
+								}
 						}
 				}
-				if (flag) {
-						ret = step + 1;
-						return ret;
-				}
+		return (len == INT_MAX) ? 0: len;
 
-
-
-		}
-		return ret;
 }
+
