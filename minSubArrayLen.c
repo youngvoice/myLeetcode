@@ -10,8 +10,8 @@ int minSubArrayLen(int s, int* nums, int numsSize)
 				while (sum >= s) {
 						if (i + 1 - left < len)
 								len = i + 1 - left;
-						sum -= mums[left];
-						left++;
+						sum -= nums[left];
+						left++; //**** if after left++, still have sum >= s, then the len is recalculating.
 						//sum -= nums[left++];
 				}
 		}
