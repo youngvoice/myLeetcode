@@ -28,6 +28,7 @@ void swap(int i, int j, int *nums)
 }
 */
 
+/*
 void moveZeroes(int* nums, int numsSize)
 {
 		int *retNums;
@@ -42,4 +43,19 @@ void moveZeroes(int* nums, int numsSize)
 						retNums[j++] = nums[i];
 		for (i = 0; i < numsSize; i++)
 				nums[i] = retNums[i];
+}
+*/
+
+
+void moveZeroes(int* nums, int numsSize)
+{
+		int i;
+		int lastNonZero = 0;
+		for (i = 0; i < numsSize; i++) {
+				if (nums[i] != 0)
+						nums[lastNonZero++] = nums[i];
+		}
+		for (i = lastNonZero; i < numsSize; i++) {
+				nums[i] = 0;
+		}
 }
