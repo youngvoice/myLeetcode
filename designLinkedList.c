@@ -21,11 +21,15 @@ MyLinkedList* myLinkedListCreate() {
 /** Get the value of the index-th node in the linked list. If the index is invalid, return -1. */
 int myLinkedListGet(MyLinkedList* obj, int index) {
 		int i = -1;
+		int len = 0;
 		MyLinkedList *cur;
 		cur = obj;
-		while (cur = cur->next && ++i < index);
-		if (cur == NULL)
+		while ((cur = cur->next) != obj)
+				len++;
+		if (index < 0 || index >= len)
 				return -1;
+		cur = obj;
+		while ((cur = cur->next) != obj && ++i < index);
 		return cur->val;
   
 }
@@ -47,27 +51,25 @@ void myLinkedListAddAtHead(MyLinkedList* obj, int val) {
 
 /** Append a node of value val to the last element of the linked list. */
 void myLinkedListAddAtTail(MyLinkedList* obj, int val) {
-		MyLinkedList *cur, *prev, *new;
-		cur = obj;
-		while (cur = cur->next)
-				prev = cur;
+		MyLinkedList *tail, *new;
+		tail = obj->prev;
 		if ((new = (MyLinkedList *)malloc(sizeof(struct Node))) == NULL)
 				;
 		new->val = val;
-		new->next = NULL;
-		new->prev = prev;
-		prev->next = new;
+		new->next = obj;
+		obj->prev = new;
+		new->prev = tail;
+		tail->next = new;
   
 }
 
 /** Add a node of value val before the index-th node in the linked list. If index equals to the length of linked list, the node will be appended to the end of linked list. If index is greater than the length, the node will not be inserted. */
 void myLinkedListAddAtIndex(MyLinkedList* obj, int index, int val) {
 		int len = 0, i = 0;
-		MyLinkedList *cur, *prev, *new;
+		MyLinkedList *cur, *prev, *new , *tail;
 		cur = obj;
-		while (cur = cur->next) {
+		while ((cur = cur->next) != obj) {
 				len++;
-				prev = cur;
 		}
 		if (index > len)
 				return;
@@ -75,16 +77,19 @@ void myLinkedListAddAtIndex(MyLinkedList* obj, int index, int val) {
 				;
 		new->val = val;
 		if (index == len) {
-				new->next = NULL;
-				new->prev = prev;
-				prev->next = new;
+				tail = obj->prev;
+
+				new->next = obj;
+				obj->prev = new;
+				new->prev = tail;
+				tail->next = new;
 				return;
 		}
 
 		cur = obj;
 		i = -1;
 		if (index < len) {
-				while (cur = cur->next && ++i < index);
+				while ((cur = cur->next) != obj && ++i < index);
 				prev = cur->prev;
 				new->next = cur;
 				cur->prev = new;
@@ -101,30 +106,33 @@ void myLinkedListAddAtIndex(MyLinkedList* obj, int index, int val) {
 
 /** Delete the index-th node in the linked list, if the index is valid. */
 void myLinkedListDeleteAtIndex(MyLinkedList* obj, int index) {
-		int len= 0, i;
-		MyLinkedList *cur, *prev;
+		int len = 0, i;
+		MyLinkedList *cur, *prev, *next;
 		cur = obj;
-		while (cur = cur->next)
+		while ((cur = cur->next) != obj )
 				len++;
-		if (index >= len)
+		if (index < 0 || index >= len)
 				return;
 
 		cur = obj;
 		i = -1;
-		while (cur = cur->next && ++i < index);
+		//while (cur = cur->next && ++i < index);
+		while ((cur = cur->next) != obj && ++i < index);
 		prev = cur->prev;
-		prev->next = cur->next;
-		cur->next->prev = prev;
-		free(cur);
+		next = cur->next;
+
+		prev->next = next;
+		next->prev = prev;
   
 }
 
 void myLinkedListFree(MyLinkedList* obj) {
 		MyLinkedList *cur, *next;
-		while (obj) {
-				next = obj->next;
-				free(obj);
-				obj = next;
+		cur = obj;
+		while (cur != obj) {
+				next = cur->next;
+				free(cur);
+				cur = next;
 
 		}
 
