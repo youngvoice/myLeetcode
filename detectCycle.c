@@ -10,15 +10,15 @@ struct ListNode *detectCycle(struct ListNode *head) {
 		struct ListNode *ptr1 = head;
 		struct ListNode *ptr2 = slow;
 
-		if (head == NULL || head->next == NULL || head->next->next == NULL)
-				return NULL;
 		slow = head;
-		fast = head->next->next;
-		while (slow != fast) {
+		fast = head;
+		while (1) {
 				if (slow == NULL || fast == NULL || slow->next == NULL || fast->next == NULL || fast->next->next == NULL)
 						return NULL;
 				slow = slow->next;
 				fast = fast->next->next;
+				if (slow == fast)
+						break;
 		}
 		ptr1 = head;
 		ptr2 = slow;
