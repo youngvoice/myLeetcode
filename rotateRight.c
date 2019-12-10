@@ -27,8 +27,16 @@ struct ListNode* rotateRightOneStep(struct ListNode* head){
 }
 
 struct ListNode* rotateRight(struct ListNode* head, int k){
-		int i;
+		int i, len = 0;
 		struct ListNode *ret = head;
+		if (head == NULL || head->next == NULL)
+				return head;
+		while (ret) {
+				len++;
+				ret = ret->next;
+		}
+		ret = head;
+		k = k % len;
 		for (i = 0; i < k; i++) {
 				ret = rotateRightOneStep(ret);
 		}
