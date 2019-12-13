@@ -6,42 +6,27 @@
  * };
  */
 
-
-struct ListNode* rotateRightOneStep(struct ListNode* head){
-		struct ListNode *tail, *temp;
-		if (head == NULL || head->next == NULL)
-				return head;
-		temp = head;
-		while (temp->next->next != NULL)
-				temp = temp->next;
-		tail = temp->next;
-		tail->next = head;
-		head = tail;
-
-		temp->next = NULL;
-
-		return head;
-		
-
-
-}
-
 struct ListNode* rotateRight(struct ListNode* head, int k){
-		int i, len = 0;
-		struct ListNode *ret = head;
+		struct ListNode *t, *tail;
 		if (head == NULL || head->next == NULL)
 				return head;
-		while (ret) {
+		int len = 0;
+		t = head;
+		while (t) {
 				len++;
-				ret = ret->next;
+				tail = t;
+				t = t->next;
 		}
-		ret = head;
-		k = k % len;
-		for (i = 0; i < k; i++) {
-				ret = rotateRightOneStep(ret);
-		}
-		return ret;
 
+		tail->next = head;
+		k = k % len;
+
+		for (int i = 0; i < len - k - 1; i++)
+				head = head->next;
+		tail = head;
+		head = tail->next;
+		tail->next = NULL;;
+		return head;
 
 }
 
