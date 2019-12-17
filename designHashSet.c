@@ -13,7 +13,7 @@ typedef struct {
 */
 
 typedef struct {
-		struct Node **HashArray;
+		struct Node *HashArray;
     
 } MyHashSet;
 
@@ -23,28 +23,22 @@ typedef struct {
 MyHashSet* myHashSetCreate() {
 		MyHashSet *ret;
 		ret = (MyHashSet *)malloc(sizeof(MyHashSet));
-		ret->HashArray = (struct Node *)malloc(NUMKEYS*sizeof(struct Node *));
+		ret->HashArray = (struct Node *)malloc(NUMKEYS*sizeof(struct Node));
 		for (int i = 0; i < NUMKEYS; i++) {
-				(ret->HashArray)[i] = NULL;
+				(ret->HashArray)[i].val = 0;
+				(ret->HashArray)[i].next = NULL;
 		}
 		return ret;
     
 }
 
-bool myHashSetContains(MyHashSet* obj, int key); 
 void myHashSetAdd(MyHashSet* obj, int key) {
 		int index;
 		struct Node *cur, *next, *new;
 		if (myHashSetContains(obj, key))
 				return;
 		index = key % NUMKEYS;
-		cur = (obj->HashArray)[index];
-		new = (struct Node*)malloc(sizeof(struct Node));
-		new->val = key;
-		new->next = next;
-		
-
-
+		cur = (obj->HashArray) + index;
 		next = cur->next;
 		new = (struct Node*)malloc(sizeof(struct Node));
 		new->val = key;
@@ -67,8 +61,10 @@ void myHashSetRemove(MyHashSet* obj, int key) {
 						cur = pre->next;
 						break;
 				}
+				else {
 						pre = cur;
 						cur = pre->next;
+				}
 		}
 }
 
