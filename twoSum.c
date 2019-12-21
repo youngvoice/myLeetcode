@@ -46,16 +46,16 @@ int* twoSum(int* nums, int numsSize, int target, int* returnSize){
 				HASH_FIND_INT(myHashMap, &value, s);
 				if (s == NULL) {
 						s = (struct hash_map *)malloc(sizeof(struct hash_map));
-						s->key = value;
-						HASH_ADD_INT(myHashMap, value, s);
+						s->key = nums[i];
+						HASH_ADD_INT(myHashMap, key, s);
 						s->index = i;
 				}
 
 				else {
 						retArr = (int *)malloc(2*sizeof(int));
 
-						retArr[0] = i;
-						retArr[1] = s->index;
+						retArr[1] = i;
+						retArr[0] = s->index;
 						*returnSize = 2;
 						break;
 				}
