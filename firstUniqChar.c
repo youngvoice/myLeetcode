@@ -2,6 +2,8 @@
  * char -> times
  * the record structure can be array or hash_map;
  * */
+
+/*
 struct hash_map {
 		int c;
 		int count;
@@ -51,3 +53,41 @@ int firstUniqChar(char * s){
 
 }
 
+*/
+
+
+struct hash_map {
+		int c;
+		int count;
+
+		UT_hash_handle hh;
+};
+
+int firstUniqChar(char *s){
+		struct hash_map *myHashMap = NULL, *elem;
+		int val;
+		int i = 0;
+		for (i = 0; (val = s[i]) != '\0'; i++)
+		{
+				HASH_FIND_INT(myHashMap, &val, elem);
+				if (elem == NULL) {
+						elem = (struct hash_map *)malloc(sizeof(struct hash_map));
+						elem->c = val;
+						HASH_ADD_INT(myHashMap, c, elem);
+						elem->count = 0;
+				}
+				elem->count++;
+		}
+
+		for (i = 0; (val = s[i]) != '\0'; i++)
+		{
+				HASH_FIND_INT(myHashMap, &val, elem);
+				if (elem->count == 1)
+						return i;
+		}
+
+		return -1;
+
+
+
+}
