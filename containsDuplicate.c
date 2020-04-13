@@ -1,22 +1,50 @@
+void sort(int *nums, int numsSize);
 bool containsDuplicate(int* nums, int numsSize){
-		struct hash {
-				int value;
-				UT_hash_handle hh;
-		};
+    if (numsSize < 2) return false;
+    sort(nums, numsSize);
+    int i;
+    //for (i = 0; i < numsSize; i++)
+    //    printf("%d ", nums[i]);
+    for (i = 0; i < numsSize -1; i++) {
+        if (nums[i] == nums[i+1]) {
+            return true;
+        }
+    }
+    return false;
+}
 
-		struct hash *hashTable = NULL;
-		for (int i = 0; i < numsSize; i++) {
-				struct hash *h;
-				HASH_FIND_INT(hashTable, nums+i, h);
+void sort(int *nums, int numsSize)
+{
 
-				if (h)
-						return true;
-				else {
-						h = malloc(sizeof(struct hash));
-						h->value = nums[i];
-						HASH_ADD_INT(hashTable, value, h);
-				}
-		}
-		return false;
+    int *nums_guard = (int *)malloc((numsSize+1)*sizeof(int));
+    nums_guard[0] = 0;
+    int i,j;
+    for (i = 1; i < numsSize+1; i++) {
+        nums_guard[i] = nums[i-1];
+        //printf("\n");
+        //printf("i=%d  %d ",i,nums_guard[i]);
+    }
+    
+    for (i = 2; i < numsSize+1; i++) {
+	    nums_guard[0] = nums_guard[i];
+	    for (j = i - 1; j >= 0; j--) {
+		    if (nums_guard[0] < nums_guard[j]) {
+			    nums_guard[j + 1] = nums_guard[j];
+			    continue;
+		    }
+            else {
+                nums_guard[j+1] = nums_guard[0];
+                break;
+            }
+		    
+	    }
+    }
 
+    for (i = 1; i < numsSize+1; i++) {
+	    nums[i-1] = nums_guard[i];
+        //printf("\n");
+        //printf("i=%d  %d ",i,nums_guard[i]);
+    }
+    free(nums_guard);
+    nums_guard = NULL;
 }
