@@ -13,53 +13,26 @@ bool containsDuplicate(int* nums, int numsSize){
     return false;
 }
 
-void ShellInsert(int *nums, int numsSize, int k)
+void BubbleInsert(int *nums, int numsSize)
 {
-    int temp, list_th, i, j;
-    for (list_th = 0; list_th < k; list_th++) {
-        for (i = 1; list_th +i*k < numsSize; i++) {
-            temp = nums[list_th +i*k];
-            for (j = i - 1; list_th + j*k >= 0; j--) {
-                if (temp < nums[list_th + j*k])
-                {
-                    /*
-                    if (k == 2) {
-                        printf("%d  %d\n", nums[list_th + (j+1)*k], list_th + (j+1)*k);
-                        printf("%d  %d\n", nums[list_th + j*k], list_th + j*k);
-                    }
-                    */
-                    nums[list_th + (j+1)*k] = nums[list_th + j*k];
-                    continue;
-                }
-                    
-                else
-                {
-                    //nums[list_th + (j+1)*k] = temp;
-                    break;
-                }
-                    
+    int i, j, temp;
+    bool exchange = true;
+    for (i = numsSize -1; i > 0 && exchange; i--) {
+        exchange = false;
+
+        for (j = 0; j < i; j++) {
+            if (nums[j] > nums[j+1]) {
+                exchange = true;
+                temp = nums[j+1];
+                nums[j+1] = nums[j];
+                nums[j] = temp;  
             }
-            nums[list_th + (j+1)*k] = temp;
         }
-        /*
-        printf("k=%d\n", k);
-        for (i = 0; i < numsSize; i++) {
-        printf("%d  %d\n", i, nums[i]);
-        }
-        */
     }
 
 }
 
-#define NUM_DLTA 5
 void sort(int *nums, int numsSize)
 {
-    int dlta[NUM_DLTA] = {1, 2, 3, 5, 7};
-    int i = 0, k = 0;
-    for (i = NUM_DLTA -1; i >= 0; i--) {
-        k = dlta[i];
-        ShellInsert(nums, numsSize, k);
-    }
-    
-
+    BubbleInsert(nums, numsSize);
 }
