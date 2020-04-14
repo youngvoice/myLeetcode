@@ -13,7 +13,7 @@ bool containsDuplicate(int* nums, int numsSize){
     return false;
 }
 
-void BubbleInsert(int *nums, int numsSize)
+void BubbleSort(int *nums, int numsSize)
 {
     int i, j, temp;
     bool exchange = true;
