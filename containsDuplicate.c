@@ -41,7 +41,7 @@ void Merge(int *sr, int *tr, int i, int m, int n)
             
     }
     if (j <= n) {
-        for (; j <=n; j++)
+        for (; j <=n; j++, k++)
         {
             //k++;
             tr[k] = sr[j];
@@ -51,7 +51,7 @@ void Merge(int *sr, int *tr, int i, int m, int n)
 
 void MSort(int *sr, int *tr1, int s, int t, int numsSize)
 {
-    if (s==t) tr1[s]=sr[s];
+    if (s==t) {tr1[s]=sr[s];}
     else {
         
         int m = (s+t)/2;
@@ -59,10 +59,14 @@ void MSort(int *sr, int *tr1, int s, int t, int numsSize)
         int *tr2 = (int *)malloc(numsSize*sizeof(int));
         MSort(sr, tr2, s, m, numsSize);
         MSort(sr, tr2, m+1, t, numsSize);
-        Merge(tr2, tr1, s, m, t);  
+        Merge(tr2, tr1, s, m, t); 
+        
         free(tr2);
         tr2 = NULL;
     }
+    for (int i = s; i <= t; i++)
+            printf("%d  s=%d, t=%d  ", tr1[i], s, t); 
+    printf("\n");
 }
 
 void MergeSort(int *nums, int numsSize)
@@ -71,6 +75,7 @@ void MergeSort(int *nums, int numsSize)
     MSort(nums, tr, 0, numsSize -1, numsSize);
     for (int i = 0; i < numsSize; i++) {
         nums[i] = tr[i];
+        printf("%d  ", nums[i]);
     }
     free(tr);
     tr = NULL;
