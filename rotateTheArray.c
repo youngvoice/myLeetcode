@@ -1,27 +1,30 @@
 void rotate(int* nums, int numsSize, int k)
 {
-
-
-		int i, j, temp, previous;
-		for (j = 0; j < k; j++) {
-				previous = nums[numsSize - 1];
-				for (i = 0; i < numsSize; i++) {
-						temp = nums[i];
-						nums[i] = previous;
-						previous = temp;
-
-				}
+	
+	int s = 0;
+	int count = 0;
+	int i = -1;
+	int index = -1;
+	int next, orignal;
+	if (numsSize <= 1)	return ;
+	while (count < numsSize) {
+		index = (i + s*k)%numsSize;
+		if (index == i) {
+			i++;
+			s = 0;
+			orignal = nums[(i + s*k)%numsSize];
+			index = (i + s*k)%numsSize;
 		}
 
-		/*
-		int i, j, temp;
-		for (j = 0; j < k; j++)
-		for (i = numsSize - 1; i > 0; i--) {
-				temp = nums[i];
-				nums[i] = nums[i - 1];
-				nums[i - 1] = temp;
-		}
-		*/
-
+		next = nums[(index + k)%numsSize];
+		printf("%d %d\n",orignal, next);
+		nums[(index + k)%numsSize] = orignal;
+		count++;
+	
+		orignal = next;
+		s++;
+	}
 }
+
+
 
