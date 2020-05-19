@@ -1,28 +1,21 @@
+void reverse(int *nums, int left, int right);
 void rotate(int* nums, int numsSize, int k)
 {
-	
-	int s = 0;
-	int count = 0;
-	int i = -1;
-	int index = -1;
-	int next, orignal;
-	if (numsSize <= 1)	return ;
-	while (count < numsSize) {
-		index = (i + s*k)%numsSize;
-		if (index == i) {
-			i++;
-			s = 0;
-			orignal = nums[(i + s*k)%numsSize];
-			index = (i + s*k)%numsSize;
-		}
-
-		next = nums[(index + k)%numsSize];
-		printf("%d %d\n",orignal, next);
-		nums[(index + k)%numsSize] = orignal;
-		count++;
-	
-		orignal = next;
-		s++;
+	k = k % numsSize;
+	reverse(nums, 0, numsSize - 1);
+	reverse(nums, 0, k - 1);
+	reverse(nums, k, numsSize - 1);
+}
+void reverse(int *nums, int left, int right)
+{
+	int temp;
+	while (left < right) {
+		
+		temp = nums[left];
+		nums[left] = nums[right];
+		nums[right] = temp;
+		left++;
+		right--;
 	}
 }
 
