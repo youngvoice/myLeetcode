@@ -46,7 +46,7 @@ void moveZeroes(int* nums, int numsSize)
 }
 */
 
-
+/*
 void moveZeroes(int* nums, int numsSize)
 {
 		int i;
@@ -58,4 +58,29 @@ void moveZeroes(int* nums, int numsSize)
 		for (i = lastNonZero; i < numsSize; i++) {
 				nums[i] = 0;
 		}
+}
+
+*/
+
+
+
+void moveZeroes(int* nums, int numsSize){
+	int i = 0, j = 0, tmp = 0, count = 0;
+	for (j = 0; j < numsSize && count < numsSize; j++) {
+        count++;
+		if (nums[j] == 0) {
+			i = j;
+			for (; i+1 < numsSize; i++) {
+				tmp = nums[i+1];
+				nums[i+1] = nums[i];
+				nums[i] = tmp;
+			}
+            j--;
+            #for (i = 0; i < numsSize; i++) printf("%d ",nums[i]);
+            #printf("\n");
+                
+			
+		}
+	}
+
 }
