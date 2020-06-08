@@ -1,74 +1,33 @@
 /**
  * Note: The returned array must be malloced, assume caller calls free().
  */
-struct hash_map {
-		int val;
-		int count;
-		UT_hash_handle hh;
-};
+/**
+ * optimize:
+ * case 1: The array is sorted
+ * case 2: The size of nums1 if smaller than nums2
+ */
+
 int* intersect(int* nums1, int nums1Size, int* nums2, int nums2Size, int* returnSize){
-		struct hash_map *nums1map = NULL, *nums2map = NULL, *elem, *current, *tmp, *comb = NULL;
-		int i = 0, combCount = 0, value = 0;
-		int numVal = 0, retSize = 0;
-		int *retArray = NULL; 
-		for (i = 0; i < nums1Size; i++) {
-				value = nums1[i];
-				HASH_FIND_INT(nums1map, &value, elem);
-				if (elem == NULL) {
-						elem = (struct hash_map *)malloc(sizeof(struct hash_map));
-						elem->val = value;
-						HASH_ADD_INT(nums1map, val, elem);
-						elem->count = 0;
+	int nums3Size = nums1Size, markSize = nums2Size;
+	int i = 0, j = 0, k = 0;
+    
 
-				}
-				elem->count++; 
+	int *nums3 = (int *)malloc(nums3Size*sizeof(int));
+	int *mark = (int *)malloc(markSize*sizeof(int));
+	//memset(mark, markSize*sizeof(int),0); // can't work, why ???
+    for (j = 0; j < markSize; j++)
+        mark[j] = 0;
+	for (i = 0; i < nums3Size; i++)
+		for (j = 0; j < markSize; j++) {
+            #printf("%d  %d\n", nums1[i], nums2[j]);
+			if (nums1[i] == nums2[j] && mark[j] == 0) {
+			    
+                mark[j] = 1;
+				nums3[k++] = nums1[i];
+				break;
+			}
 		}
-		for (i = 0; i < nums2Size; i++) {
-				value = nums2[i];
-				HASH_FIND_INT(nums2map, &value, elem);
-				if (elem == NULL) {
-						elem = (struct hash_map *)malloc(sizeof(struct hash_map));
-						elem->val = value;
-						HASH_ADD_INT(nums2map, val, elem);
-						elem->count = 0;
-
-				}
-				elem->count++; 
-		}
-		retSize = 0;
-		HASH_ITER(hh, nums1map, current, tmp) {
-				value = current->val;
-				HASH_FIND_INT(nums2map, &value, elem);
-				if (elem != NULL) {
-						if (current->count > elem->count)
-								combCount = elem->count;
-						else
-								combCount = current->count;
-						elem = (struct hash_map *)malloc(sizeof(struct hash_map));
-						elem->val = value;
-						HASH_ADD_INT(comb, val, elem);
-						elem->count = combCount;
-						retSize += combCount;
-				}
-		}
-
-		retArray = (int *)malloc(retSize*sizeof(int));
-		i = 0;
-		HASH_ITER(hh, comb, current, tmp) {
-				for (int j = 0; j < current->count; j++)
-						retArray[i++] = current->val;
-				
-		}
-
-		*returnSize = retSize;
-		return retArray;
-
-
-
-
-
-
-		
-
+	free(mark);
+    *returnSize = k;
+	return nums3;
 }
-
