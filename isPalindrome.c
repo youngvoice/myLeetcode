@@ -6,7 +6,6 @@
  * };
  */
 
-<<<<<<< HEAD
 /*
 // first go through the list and create a reverse list
 // second compare the half number of the two list
@@ -43,6 +42,8 @@ bool isPalindrome(struct ListNode* head){
 }
 
 */
+
+/*
 bool isPalindrome(struct ListNode* head) {
 		struct ListNode *slow, *fast, *temp;
 		struct ListNode *pre_head = NULL;
@@ -73,53 +74,49 @@ bool isPalindrome(struct ListNode* head) {
 
 		return true;
 }
-=======
 
-bool isPalindrome(struct ListNode* head){
-		int len = 0;
-		int mid, mid_left, mid_right;
-		struct ListNode *cur = head;
-		struct ListNode *mid_leftp, *mid_rightp;
-		int i;
-		if (cur == NULL)
-				return true;
-		while (cur) {
-				len++;
-				cur = cur->next;
+*/
+
+bool isPalindrome(char * s){
+	int len = 0;
+	for (len = 0; s[len] != '\0'; len++)
+		if (s[len] >= 'A' && s[len] <= 'Z')
+			s[len] = s[len] + ('a' - 'A');
+//"A man, a plan, a canal: Panama"	
+	int i = 0, j = len - 1;
+	//for (i = 0, j = len - 1; i < j; ) 
+	while (i < j)
+	{
+		if ((s[i] < 'a' || s[i] > 'z') && (s[i] < '0' || s[i] > '9')) {
+			i++;
+			continue;
 		}
-
-
-		mid = len % 2;
-		if (mid == 0) {
-				mid_left = len / 2;
-				mid_right = mid_left + 1;
+		if ((s[j] < 'a' || s[j] > 'z') && (s[j] < '0' || s[j] > '9')) {
+			j--;
+			continue;
 		}
-		else {
-				mid_left = len / 2;
-				mid_right = mid_left + 2;
-		}
+		
 
-		cur = head;
-		i = 0;
-		while (cur) {
-				i++;
-				if (i == mid_right) {
-						mid_rightp = cur;
-						break;
-				}
-				cur = cur->next;
+		printf("#%c# #%c#\n", s[i], s[j]);
+        printf("%d %d\n", i, j);
+		
+		if (i < j) {
+			if (s[i] != s[j]) {
+                
+				return false;
+			}
 		}
-		mid_leftp = head;
+		else
+		{
 
-		while (mid_rightp) {
-				if (mid_leftp->val != mid_rightp->val)
-						return false;
-				mid_rightp = mid_rightp->next;
-				mid_leftp = mid_leftp->next;
+			break;
 		}
-		return true;
-
+		
+		/* i++, j-- */
+		i++;
+		j--;
+	}
+	
+	return true;
 
 }
-
->>>>>>> aa15433b32af28112024e4024fe36ab13d0e4b10
